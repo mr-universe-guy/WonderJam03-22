@@ -24,6 +24,6 @@ class WonderJamApp: SimpleApplication(){
         //we'll keep all non-render tasks on the gss, all render tasks will be in appstates
         stateManager.attach(gss)
         //go straight into game loop, in the future main menu?
-        gss.register(GameLoopSystem::class.java, GameLoopSystem())
+        gss.register(GameLoopSystem::class.java, GameLoopSystem(this))
     }
 }
