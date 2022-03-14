@@ -43,10 +43,10 @@ class GameLoopSystem(private val app:WonderJamApp): AbstractGameSystem() {
         //states
         val stateManager = app.stateManager
         stateManager.attach(VisualState(data))
+        stateManager.attach(PlayerInputState(data, playerId))
     }
 
     override fun terminate() {
         println("Stopping game")
-
     }
 }

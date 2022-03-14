@@ -14,7 +14,7 @@ import com.simsilica.sim.AbstractGameSystem
  */
 class MobSystem(private val data: EntityData, private val phys:PhysicsSpace):AbstractGameSystem(), PhysicsTickListener {
     private val mobs = HashMap<EntityId, Mob>()
-    private val mobSet = data.getEntities(Position::class.java, Radius::class.java, Driver::class.java)
+    private val mobSet = data.getEntities(Position::class.java, Radius::class.java, Driver::class.java, Speed::class.java)
 
     override fun initialize() {
         phys.addTickListener(this)
@@ -41,7 +41,7 @@ class MobSystem(private val data: EntityData, private val phys:PhysicsSpace):Abs
         //The only changes we respond to are driver changes
         mobSet.changedEntities.forEach { e->
             val driver = e.get(Driver::class.java).dir
-            mobs[e.id]!!.control.setWalkDirection(driver.mult(e.get(Speed::class.java).speed))
+            mobs[e.id]!!.control.setWalkDirection(driver.mult(e.get(Speed::class.java).speed*timeStep))
         }
     }
 
