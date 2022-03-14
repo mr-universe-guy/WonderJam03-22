@@ -1,5 +1,6 @@
 package `fun`.familyfunforce.wj
 
+import CameraState
 import com.jme3.bullet.BulletAppState
 import com.jme3.bullet.PhysicsSpace
 import com.jme3.bullet.collision.shapes.PlaneCollisionShape
@@ -43,6 +44,7 @@ class GameLoopSystem(private val app:WonderJamApp): AbstractGameSystem() {
         //states
         val stateManager = app.stateManager
         stateManager.attach(VisualState(data))
+        stateManager.attach(CameraState(app.camera, playerId))
         stateManager.attach(PlayerInputState(data, playerId))
     }
 

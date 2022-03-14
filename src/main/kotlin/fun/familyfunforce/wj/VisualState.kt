@@ -50,6 +50,10 @@ class VisualState(data:EntityData):BaseAppState() {
         }
     }
 
+    fun getSpatialFromId(id:EntityId): Spatial?{
+        return visMap[id]
+    }
+
     private fun addVisual(e: Entity) {
         val radius = e.get(Radius::class.java).radius
         val capsule = Cylinder(16,16,radius,1f,true)
