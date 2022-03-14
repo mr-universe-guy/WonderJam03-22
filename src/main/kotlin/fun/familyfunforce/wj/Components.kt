@@ -11,4 +11,6 @@ class Radius(val radius:Float): EntityComponent
 
 class Speed(val speed:Float): EntityComponent
 
+class Driver(val dir: Vector3f): EntityComponent
+
 class HitPoints(val hp:Int): EntityComponent

@@ -6,11 +6,14 @@ import com.jme3.material.Material
 import com.jme3.math.ColorRGBA
 import com.jme3.scene.Geometry
 import com.jme3.scene.Node
+import com.jme3.scene.Spatial
 import com.jme3.scene.shape.Cylinder
 import com.simsilica.es.Entity
 import com.simsilica.es.EntityData
+import com.simsilica.es.EntityId
 
-class VisualState(private val data:EntityData):BaseAppState() {
+class VisualState(data:EntityData):BaseAppState() {
+    private val visMap = HashMap<EntityId, Spatial>()
     private val visNode = Node("Visuals")
     private val visualSet = data.getEntities(Position::class.java, Radius::class.java)
     private lateinit var debugMat: Material
@@ -35,8 +38,16 @@ class VisualState(private val data:EntityData):BaseAppState() {
     }
 
     override fun update(tpf: Float) {
-        if(!visualSet.applyChanges()) return;
+        if(!visualSet.applyChanges()) return
+        visualSet.removedEntities.forEach { e ->
+            val spat = visMap.remove(e.id)!!
+            spat.removeFromParent()
+        }
         visualSet.addedEntities.forEach { e -> addVisual(e) }
+        visualSet.changedEntities.forEach { e ->
+            val spat = visMap[e.id]!!
+            spat.localTranslation = e.get(Position::class.java).pos
+        }
     }
 
     private fun addVisual(e: Entity) {
@@ -48,5 +59,6 @@ class VisualState(private val data:EntityData):BaseAppState() {
         geo.material=debugMat
         visNode.attachChild(geo)
         println("$e has been added to the visual node")
+        visMap[e.id] = geo
     }
 }
