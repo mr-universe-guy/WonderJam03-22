@@ -41,6 +41,7 @@ class GameLoopSystem(private val app:WonderJamApp): AbstractGameSystem() {
 
         //systems
         manager.register(MobSystem::class.java, MobSystem(data, phys))
+        manager.register(HostileManagerSystem::class.java, HostileManagerSystem(data))
         //states
         val stateManager = app.stateManager
         stateManager.attach(VisualState(data))
